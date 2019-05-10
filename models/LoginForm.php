@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use app\components\validators\EmailOrPhoneValidator;
+use app\components\behaviors\ProcessUsernameBehavior;
 
 /**
  * LoginForm is the model behind the login form.
@@ -17,8 +19,17 @@ class LoginForm extends Model
     public $password;
     public $rememberMe = true;
 
-    private $_user = false;
-
+    private $user = false;
+    
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'processUsername' => ProcessUsernameBehavior::ClassName(),
+        ];
+    }
 
     /**
      * @return array the validation rules.
@@ -28,6 +39,8 @@ class LoginForm extends Model
         return [
             // username and password are both required
             [['username', 'password'], 'required'],
+            ['username', EmailOrPhoneValidator::className()],
+            ['username', 'filter', 'filter' => [$this, 'normalizePhone']],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -72,10 +85,10 @@ class LoginForm extends Model
      */
     public function getUser()
     {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+        if ($this->user === false) {
+            $this->user = User::findByUsername($this->username);
         }
 
-        return $this->_user;
+        return $this->user;
     }
 }

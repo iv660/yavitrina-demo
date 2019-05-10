@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use app\components\validators\EmailOrPhoneValidator;
 use app\components\validators\PhoneValidator;
+use app\components\behaviors\ProcessUsernameBehavior;
 
 /**
  * Signup form
@@ -15,6 +16,16 @@ class SignupForm extends Model
 
     public $username;
     public $password;
+    
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'processUsername' => ProcessUsernameBehavior::ClassName(),
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -46,31 +57,6 @@ class SignupForm extends Model
         }
         
         return $this->password;
-    }
-    
-    /**
-     * Checks if the username field is a valid phone number.
-     */
-    protected function isPhone()
-    {
-        $validator = new PhoneValidator();
-        
-        return $validator->validate($this->username);
-    }
-    
-    /**
-     * Converts the phone number to the uniform format: +xxxxxxxxxxx.
-     * 
-     * @param string $number
-     * @return string
-     */
-    public function normalizePhone($number)
-    {
-        if ($this->isPhone()) {
-            $result = preg_replace('/[-\.\s\(\)]/', '', $number);
-        }
-        
-        return $result;
     }
 
     /**
