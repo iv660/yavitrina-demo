@@ -6,12 +6,12 @@ use Yii;
 use yii\base\Model;
 
 /**
- * SigninForm is the model behind the login form.
+ * SignupForm is the model behind the sign up form.
  *
  * @property User|null $user This property is read-only.
  *
  */
-class SigninForm extends Model
+class SignupForm extends Model
 {
     public $username;
     public $password;
@@ -26,12 +26,8 @@ class SigninForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            // username is required
+            ['username', 'required'],
         ];
     }
 
@@ -57,7 +53,7 @@ class SigninForm extends Model
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
      */
-    public function signin()
+    public function signup()
     {
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);

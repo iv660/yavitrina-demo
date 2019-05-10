@@ -9,7 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\SigninForm;
+use app\models\SignupForm;
 
 class SiteController extends Controller
 {
@@ -132,19 +132,19 @@ class SiteController extends Controller
      * 
      * @return Response|string
      */
-    public function actionSignin() 
+    public function actionSignup() 
     {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
-        $model = new SigninForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signin()) {
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
             return $this->goBack();
         }
 
         $model->password = '';
-        return $this->render('signin', [
+        return $this->render('signup', [
             'model' => $model,
         ]);
     }

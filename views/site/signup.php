@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = \Yii::t('app', 'Sign in');
+$this->title = \Yii::t('app', 'Sign up');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>Please fill out the following fields to create the new user account:</p>
 
     <?php $form = ActiveForm::begin([
-        'id' => 'signin-form',
+        'id' => 'signup-form',
         'layout' => 'horizontal',
         'fieldConfig' => [
             'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton(\Yii::t('app', 'Sign in'), ['class' => 'btn btn-primary', 'name' => 'signin-button']) ?>
+                <?= Html::submitButton(\Yii::t('app', 'Sign up'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
             </div>
         </div>
 
