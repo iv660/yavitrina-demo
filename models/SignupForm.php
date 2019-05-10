@@ -4,74 +4,65 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use app\components\validators\EmailOrPhoneValidator;
 
 /**
- * SignupForm is the model behind the sign up form.
- *
- * @property User|null $user This property is read-only.
- *
+ * Signup form
  */
 class SignupForm extends Model
 {
+
     public $username;
     public $password;
-    public $rememberMe = true;
-
-    private $_user = false;
-
 
     /**
-     * @return array the validation rules.
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            // username is required
+            ['username', 'trim'],
             ['username', 'required'],
+            ['username', 'unique', 'targetClass' => '\app\models\User', 'message' => \Yii::t('app', 'This username has already been taken.')],
+            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username', EmailOrPhoneValidator::className()],
         ];
     }
-
+    
     /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
+     * Generates user password.
+     * 
+     * For the purposes of this demonstration, the hard-coded 'user' password is 
+     * used for every new user.
+     * 
+     * @return string
      */
-    public function validatePassword($attribute, $params)
+    protected function generatePassword()
     {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
-
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
-            }
+        if (!$this->password) {
+            $this->password = 'user';
         }
+        
+        return $this->password;
     }
 
     /**
-     * Logs in a user using the provided username and password.
-     * @return bool whether the user is logged in successfully
+     * Signs user up.
+     *
+     * @return User|null the saved model or null if saving fails
      */
     public function signup()
     {
-        if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
-        }
-        return false;
-    }
 
-    /**
-     * Finds user by [[username]]
-     *
-     * @return User|null
-     */
-    public function getUser()
-    {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+        if (!$this->validate()) {
+            return null;
         }
 
-        return $this->_user;
+        $user = new User();
+        $user->username = $this->username;
+        $user->setPassword($this->generatePassword());
+        $user->generateAuthKey();
+        return $user->save() ? $user : null;
     }
+
 }
