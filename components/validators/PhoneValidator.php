@@ -6,8 +6,6 @@
 namespace app\components\validators;
 
 use yii\validators\Validator;
-use yii\validators\EmailValidator;
-use app\components\validators\PhoneValidator;
 
 /**
  * EmailOrPhoneValidator validates that the attribute value is either a valid 
@@ -15,11 +13,12 @@ use app\components\validators\PhoneValidator;
  *
  * @author Ilya Vikharev <iv660@yandex.ru>
  */
-class EmailOrPhoneValidator extends Validator
+class PhoneValidator extends Validator
 {
     /**
      * @var string the regular expression used to validate the attribute value.
      */
+    public $pattern = '/^\+\s*\d+[\s-\.]*\(?[\s-\.]*\d+[\s-\.]*\)?[\s-\.]*[\d\s-\.]+$/';
     
     /**
      * {@inheritdoc}
@@ -29,7 +28,7 @@ class EmailOrPhoneValidator extends Validator
         parent::init();
         
         if ($this->message === null) {
-            $this->message = \Yii::t('app', '{attribute} is not a valid email address or international phone number.');
+            $this->message = \Yii::t('app', '{attribute} is not a valid email address or phone number.');
         }
     }
 
@@ -38,13 +37,22 @@ class EmailOrPhoneValidator extends Validator
      */
     public function validateValue($value)
     {
-        $emailValidator = new EmailValidator();
-        $phoneValidator = new PhoneValidator();
         // Validate as Email first, then check against the phone rules
-        if (!($emailValidator->validate($value, $error) || $phoneValidator->validate($value))) {
+        if (!$this->validatePhone($value)) {
             return [$this->message, []];
         } else {
             return null;
         }
+    }
+    
+    /**
+     * Check if the value is a valid phone number.
+     * 
+     * @param type $value
+     * @return boolean
+     */
+    protected function validatePhone($value)
+    {
+        return preg_match($this->pattern, $value);
     }
 }
