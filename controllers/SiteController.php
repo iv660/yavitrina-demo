@@ -80,6 +80,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'The user is logged in successfully.'));
             return $this->goBack();
         }
 
@@ -97,6 +98,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
+        Yii::$app->session->setFlash('info', Yii::t('app', 'The user is logged out.'));
 
         return $this->goHome();
     }
@@ -145,9 +147,11 @@ class SiteController extends Controller
             $model->notify();
             if ($model->isPhone()) {
                 // Sign up by phone
+                Yii::$app->session->setFlash('success', Yii::t('app', 'The user account has successfully been created. Your password has been sent to the phone number you\'ve provided. You now can log into the system.'));
                 return $this->redirect(['login']);
             } else {
                 // Sign up by email
+                Yii::$app->session->setFlash('success', Yii::t('app', 'The user account has successfully been created. Check your email for account activation instructions.'));
                 return $this->goHome();
             }
         }
@@ -175,9 +179,11 @@ class SiteController extends Controller
         if ($model->password) {
             // Activate the user account
             if (!$model->setPassword()) {
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Cannot activate user account.'));
                 return $this->goHome();
             }
             
+            Yii::$app->session->setFlash('success', Yii::t('app', 'The user account has been activated. You can now log in.'));
             return $this->redirect(['login']);
             
             return true;

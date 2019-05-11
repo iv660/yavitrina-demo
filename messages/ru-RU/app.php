@@ -18,4 +18,11 @@ return [
     'Password'  => 'Пароль',
     'Submit'    => 'Отправить',
     'Set Your Password' => 'Ввод пароля',
+    'The user is logged in successfully.' => 'Вход в систему успешно выполнен.',
+    'The user is logged out.' => 'Сеанс пользователя завершен.',
+    'The user account has successfully been created. Your password has been sent to the phone number you\'ve provided. You now can log into the system.' => 'Учетная запись пользователя создана. Пароль для входа в систему отправлен на номер мобильного телефона, указанный вами при регистрации. Теперь вы можете войти в систему.',
+    'The user account has successfully been created. Check your email for account activation instructions.' => 'Учетная запись пользователя создана. Инструкции по активации учетной записи отправлены на адрес электронной почты, указанный вами при регистрации.',
+    'The activation token is incorrect.' => 'Неверный ключ активации.',
+    'Cannot activate user account.' => 'Не удается активировать учетную запись пользователя.',
+    'The user account has been activated. You can now log in.' => 'Учетная запись пользователя активирована. Теперь вы можете войти в систему.',
 ];
