@@ -1,5 +1,7 @@
 <?php
 
+$secure = parse_ini_file(__DIR__ . '/secure.ini', true);
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -14,7 +16,7 @@ $config = [
     ],
     'components' => [
         'request' => [
-            'cookieValidationKey' => '7dcb96cb71',
+            'cookieValidationKey' => $secure['request']['cookie_validation_key'],
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -31,7 +33,15 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+//            'transport' => [
+//                'class' => 'Swift_SmtpTransport',
+//                'host' => $secure['smtp']['host'],
+//                'username' => $secure['smtp']['username'],
+//                'password' => $secure['smtp']['password'],
+//                'port' => $secure['smtp']['port'],
+//                'encryption' => $secure['smtp']['encryption'],
+//            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

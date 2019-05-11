@@ -48,4 +48,4 @@ phpunit.phar
 .env
 
 # Added manually
-/config/db.php
+/config/secure.ini
