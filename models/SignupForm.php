@@ -58,6 +58,25 @@ class SignupForm extends Model
         
         return $this->password;
     }
+    
+    public function notify() 
+    {
+        if ($this->isPhone()) {
+            // Notify by SMS
+            
+        } else {
+            // Notify by email
+            $user = User::find()->where(['username' => $this->username])->one();
+            $user->generateVerificationToken();
+            if ($user->save()) {
+                $mail = Yii::$app->mailer->compose('notify', ['model' => $user])
+                        ->setFrom('mail@example.com')
+                        ->setTo($user->username)
+                        ->send();
+                var_dump($mail);
+            }
+        }
+    }
 
     /**
      * Signs user up.
@@ -78,5 +97,4 @@ class SignupForm extends Model
 
         return $user->save() ? $user : null;
     }
-
 }

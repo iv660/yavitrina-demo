@@ -14,7 +14,7 @@ use yii\web\IdentityInterface;
  * @property integer $id
  * @property string $username
  * @property string $password_hash
- * @property string $password_reset_token
+ * @property string $verification_token
  * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
@@ -24,6 +24,7 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
+    const STATUS_DISABLED = 1;
     const STATUS_ACTIVE = 10;
 
     /**
@@ -51,7 +52,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DISABLED, self::STATUS_DELETED]],
         ];
     }
 
@@ -88,6 +89,21 @@ class User extends ActiveRecord implements IdentityInterface
     public function getId()
     {
         return $this->getPrimaryKey();
+    }
+    
+    public function generateVerificationToken()
+    {
+        $this->verification_token = substr(base64_encode(sha1(mt_rand())), 0, 64);
+    }
+    
+    /**
+     * Returns verification token for user account activation.
+     * 
+     * @return string
+     */
+    public function getVerificationToken()
+    {
+        return $this->verification_token;
     }
 
     /**

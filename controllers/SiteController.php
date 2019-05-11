@@ -140,12 +140,37 @@ class SiteController extends Controller
 
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            return $this->goBack();
+            $model->notify();
+            if ($model->isPhone()) {
+                // Sign up by phone
+                return $this->redirect(['login']);
+            } else {
+                // Sign up by email
+                return $this->redirect(['activate']);
+            }
         }
 
         $model->password = '';
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+    
+    public function actionActivate()
+    {
+        
+//        if (!Yii::$app->user->isGuest) {
+//            return $this->goHome();
+//        }
+//
+//        $model = new SignupForm();
+//        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+//            return $this->redirect(['login']);
+//        }
+//
+//        $model->password = '';
+//        return $this->render('signup', [
+//            'model' => $model,
+//        ]);
     }
 }

@@ -14,7 +14,7 @@ class ProcessUsernameBehavior extends Behavior
     /**
      * Checks if the username field is a valid phone number.
      */
-    protected function isPhone()
+    public function isPhone()
     {
         $validator = new PhoneValidator();
         
