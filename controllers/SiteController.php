@@ -144,7 +144,9 @@ class SiteController extends Controller
 
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            $model->notify();
+            if (!$model->notify()) {
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Cannot send a notification.'));
+            }
             if ($model->isPhone()) {
                 // Sign up by phone
                 Yii::$app->session->setFlash('success', Yii::t('app', 'The user account has successfully been created. Your password has been sent to the phone number you\'ve provided. You now can log into the system.'));

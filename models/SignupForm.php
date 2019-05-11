@@ -60,14 +60,26 @@ class SignupForm extends Model
         return $this->password;
     }
     
+    /**
+     * Send the registration notification by the SMS or the email.
+     * 
+     * @return boolean False on error
+     */
     public function notify() 
     {
+        $user = User::find()->where(['username' => $this->username])->one();
+        if (!$user) {
+            return false;
+        }
+        
         if ($this->isPhone()) {
             // Notify by SMS
-            
+            if (!$this->password) {
+                return false;
+            }
+            Yii::$app->sms->send($user->username, 'Your password is: ' . $this->password);
         } else {
             // Notify by email
-            $user = User::find()->where(['username' => $this->username])->one();
             $user->generateVerificationToken();
             if ($user->save()) {
                 $mail = Yii::$app->mailer->compose('notify', ['model' => $user])
@@ -75,9 +87,10 @@ class SignupForm extends Model
                         ->setTo($user->username)
                         ->setSubject('Complete Your Registration')
                         ->send();
-                var_dump($mail);
             }
         }
+        
+        return true;
     }
 
     /**

@@ -25,4 +25,5 @@ return [
     'The activation token is incorrect.' => 'Неверный ключ активации.',
     'Cannot activate user account.' => 'Не удается активировать учетную запись пользователя.',
     'The user account has been activated. You can now log in.' => 'Учетная запись пользователя активирована. Теперь вы можете войти в систему.',
+    'Cannot send a notification.' => 'Не удается отправить уведомление.',
 ];

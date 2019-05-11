@@ -77,6 +77,10 @@ $config = [
                 ],
             ],
         ],
+        'sms' => [
+            'class' => 'app\components\SmsComponent',
+            'apiId' => $secure['sms']['api_id'],
+        ]
     ],
     'params' => $params,
 ];
