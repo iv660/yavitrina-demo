@@ -7,6 +7,7 @@ use yii\base\Model;
 use app\components\validators\EmailOrPhoneValidator;
 use app\components\validators\PhoneValidator;
 use app\components\behaviors\ProcessUsernameBehavior;
+use app\models\User;
 
 /**
  * Signup form
@@ -72,6 +73,7 @@ class SignupForm extends Model
                 $mail = Yii::$app->mailer->compose('notify', ['model' => $user])
                         ->setFrom('mail@example.com')
                         ->setTo($user->username)
+                        ->setSubject('Complete Your Registration')
                         ->send();
                 var_dump($mail);
             }
@@ -93,6 +95,9 @@ class SignupForm extends Model
 
         $user->username = $this->username;
         $user->setPassword($this->generatePassword());
+        if (!$this->isPhone()) {
+            $user->status = User::STATUS_DISABLED;
+        }
         $user->generateAuthKey();
 
         return $user->save() ? $user : null;

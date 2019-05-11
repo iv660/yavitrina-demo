@@ -10,6 +10,8 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\SignupForm;
+use app\models\ActivateForm;
+use Exception;
 
 class SiteController extends Controller
 {
@@ -146,7 +148,7 @@ class SiteController extends Controller
                 return $this->redirect(['login']);
             } else {
                 // Sign up by email
-                return $this->redirect(['activate']);
+                return $this->goHome();
             }
         }
 
@@ -158,19 +160,32 @@ class SiteController extends Controller
     
     public function actionActivate()
     {
+        $model = new ActivateForm();
         
-//        if (!Yii::$app->user->isGuest) {
-//            return $this->goHome();
-//        }
-//
-//        $model = new SignupForm();
-//        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-//            return $this->redirect(['login']);
-//        }
-//
-//        $model->password = '';
-//        return $this->render('signup', [
-//            'model' => $model,
-//        ]);
+        if (!$model->load(Yii::$app->request->post())) {
+            throw new Exception('Error loading activation data.', 
+                '500');
+        }
+
+        if (!$model->getUser()) {
+            // Incorrect token
+            return $this->goHome();
+        }
+        
+        if ($model->password) {
+            // Activate the user account
+            if (!$model->setPassword()) {
+                return $this->goHome();
+            }
+            
+            return $this->redirect(['login']);
+            
+            return true;
+        } else {
+            // Display activation form
+            return $this->render('activate', [
+                'model' => $model,
+            ]);
+        }
     }
 }

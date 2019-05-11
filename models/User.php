@@ -65,6 +65,14 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Find an inactive user by verification token.
+     */
+    public static function findByVerificationToken($token)
+    {
+        return static::findOne(['verification_token' => $token, 'status' => self::STATUS_DISABLED]);
+    }
+
+    /**
      * @inheritdoc
      */
     public static function findIdentityByAccessToken($token, $type = null)
