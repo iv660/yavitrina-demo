@@ -26,4 +26,7 @@ return [
     'Cannot activate user account.' => 'Не удается активировать учетную запись пользователя.',
     'The user account has been activated. You can now log in.' => 'Учетная запись пользователя активирована. Теперь вы можете войти в систему.',
     'Cannot send a notification.' => 'Не удается отправить уведомление.',
+    'Cannot load a role.' => 'Не удается загрузить роль.',
+    'You cannot access this page.' => 'У вас нет доступа к этой странице.',
+    'Restricted page' => 'Страница с ограниченным доступом',
 ];

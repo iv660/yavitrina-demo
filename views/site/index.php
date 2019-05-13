@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Url;
+
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -22,21 +24,21 @@ $this->title = 'My Yii Application';
 
                 <p>Для доступа к этому разделу требуется регистрация на сайте. Войдите в систему или зарегистрируйтесь. Для входа используйте пароль user.</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Для пользователя</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['user-page']) ?>">Для пользователя</a></p>
             </div>
             <div class="col-lg-4">
                 <h2>Для менеджера</h2>
 
                 <p>Для доступа к этому разделу необходимы права не ниже менеджера. Для входа используйте учётную запись demo@example.com/demo.</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Для менеджера</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['manager-page']) ?>">Для менеджера</a></p>
             </div>
             <div class="col-lg-4">
                 <h2>Для администратора</h2>
 
                 <p>Для доступа к этому разделу необходимы права не ниже менеджера. Для входа используйте учётную запись admin@example.com/admin.</p>
 
-                    <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Для администратора</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['admin-page']) ?>">Для администратора</a></p>
                 </div>
             </div>
 

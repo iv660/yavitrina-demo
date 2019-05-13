@@ -66,6 +66,55 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
+    
+    /**
+     * Render a page with restricted access.
+     * 
+     * @param string $role The required role name
+     * @return string The rendered page content
+     */
+    private function renderRestrictedPage($role)
+    {
+        $user = Yii::$app->user;
+        
+        if ($user->isGuest or !$user->can($role)) {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'You cannot access this page.'));
+            return $this->redirect(['login']);
+        }
+        
+        return $this->render('restricted');
+    }
+    
+    
+    /**
+     * The action to display the user page.
+     * 
+     * @return string The rendered page content
+     */
+    public function actionUserPage()
+    {
+        return $this->renderRestrictedPage('user');
+    }
+
+    /**
+     * The action to display the manager page.
+     * 
+     * @return string The rendered page content
+     */
+    public function actionManagerPage()
+    {
+        return $this->renderRestrictedPage('manager');
+    }
+    
+    /**
+     * The action to display the administrator page.
+     * 
+     * @return string The rendered page content
+     */
+    public function actionAdminPage()
+    {
+        return $this->renderRestrictedPage('admin');
+    }
 
     /**
      * Login action.

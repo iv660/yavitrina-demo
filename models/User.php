@@ -34,6 +34,24 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return '{{%user}}';
     }
+    
+    public function assignRole($name)
+    {
+        $auth = Yii::$app->authManager;
+        
+        $role = $auth->getRole($name);
+        if (!$role) {
+            $this->addEror('*', Yii::t('app', 'Cannot load the role.'));
+            return false;
+        }
+        
+        if (!$auth->assign($role, $this->id)) {
+            $this->addEror('*', Yii::t('app', 'Cannot assign the role to a user.'));
+            return false;
+        }
+        
+        return true;
+    }
 
     /**
      * @inheritdoc
@@ -158,5 +176,18 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
-
+    
+    /**
+     * {@inheritdoc}
+     * 
+     * Also assigns the default role to a new user.
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($insert) {
+            $this->assignRole('user');
+        }
+        
+        return parent::afterSave($insert, $changedAttributes);
+    }
 }
