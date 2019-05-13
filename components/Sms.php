@@ -9,10 +9,22 @@ use yii\base\Component;
  *
  * @author Ilya Vikharev
  */
-class SmsComponent extends Component 
+class Sms extends Component 
 {
     public $apiId;
-    protected $gatewayEmail = '{{apiId}}+{{phone}}@sms.ru';
+    public $gatewayEmail;
+    protected $defaultGatewayEmail = '{{apiId}}+{{phone}}@sms.ru';
+    
+    /**
+     * @inheritdoc
+     */
+    public function init() {
+        parent::init();
+        
+        if (!$this->gatewayEmail) {
+            $this->gatewayEmail = $this->defaultGatewayEmail;
+        }
+    }
     
     /**
      * Populates the template with actual data.
@@ -54,7 +66,7 @@ class SmsComponent extends Component
         ];
         
         Yii::$app->mailer->compose()
-            ->setFrom('mail@example.com')
+            ->setFrom(Yii::$app->params['senderEmail'])
             ->setTo($this->populate($this->gatewayEmail, $data))
             ->setTextBody($message)
             ->send();

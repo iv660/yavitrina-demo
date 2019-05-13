@@ -6,6 +6,7 @@ return [
     'username' => $secure['db']['username'],
     'password' => $secure['db']['password'],
     'charset' => 'utf8',
+    'tablePrefix' => $secure['db']['table_prefix'],
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,

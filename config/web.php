@@ -62,7 +62,7 @@ $config = [
         ],
         */
         'authManager' => [
-            'class' => "yii\rbac\PhpManager",
+            'class' => 'yii\rbac\DbManager',
         ],
         'i18n' => [
             'translations' => [
@@ -78,8 +78,9 @@ $config = [
             ],
         ],
         'sms' => [
-            'class' => 'app\components\SmsComponent',
+            'class' => 'app\components\Sms',
             'apiId' => $secure['sms']['api_id'],
+            'gatewayEmail' => $secure['sms']['gateway_email'],
         ]
     ],
     'params' => $params,
