@@ -7,6 +7,7 @@ use yii\base\Model;
 use app\components\validators\EmailOrPhoneValidator;
 use app\components\validators\PhoneValidator;
 use app\components\behaviors\ProcessUsernameBehavior;
+use app\components\behaviors\PasswordGeneratorBehavior;
 use app\models\User;
 
 /**
@@ -25,6 +26,7 @@ class SignupForm extends Model
     {
         return [
             'processUsername' => ProcessUsernameBehavior::ClassName(),
+            'passwordGenerator' => PasswordGeneratorBehavior::ClassName(),
         ];
     }
 
@@ -41,23 +43,6 @@ class SignupForm extends Model
             ['username', 'filter', 'filter' => [$this, 'normalizePhone']],
             ['username', 'unique', 'targetClass' => '\app\models\User', 'message' => \Yii::t('app', 'This username has already been taken.')],
         ];
-    }
-    
-    /**
-     * Generates user password.
-     * 
-     * For the purposes of this demonstration, the hard-coded 'user' password is 
-     * used for every new user.
-     * 
-     * @return string
-     */
-    protected function generatePassword()
-    {
-        if (!$this->password) {
-            $this->password = 'user';
-        }
-        
-        return $this->password;
     }
     
     /**

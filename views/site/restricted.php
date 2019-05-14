@@ -13,5 +13,5 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-restricted">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Это страница с органиченным доступом.</p>
+    <p>Это страница с органиченным доступом. У вас <strong>есть</strong> доступ к этой странице.</p>
 </div>

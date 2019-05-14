@@ -81,7 +81,17 @@ $config = [
             'class' => 'app\components\Sms',
             'apiId' => $secure['sms']['api_id'],
             'gatewayEmail' => $secure['sms']['gateway_email'],
-        ]
+        ],
+        'authClientCollection' => [
+              'class' => 'yii\authclient\Collection',
+              'clients' => [
+                  'google' => [
+                      'class' => 'yii\authclient\clients\Google',
+                      'clientId' => $secure['auth_client']['google_client_id'],
+                      'clientSecret' => $secure['auth_client']['google_client_secret'],
+                  ],
+              ],
+        ],
     ],
     'params' => $params,
 ];
@@ -99,7 +109,7 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['127.0.0.1', '::1', '185.202.212.33',],
     ];
 }
 

@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\authclient\widgets\AuthChoice;
 
 $this->title = \Yii::t('app', 'Sign up');
 $this->params['breadcrumbs'][] = $this->title;
@@ -33,4 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
     <?php ActiveForm::end(); ?>
+    <h2><?= Yii::t('app', 'Social Login') ?></h2>
+    <div class="col-lg-offset-1 col-lg-11"><?= AuthChoice::widget([
+        'baseAuthUrl' => ['site/auth'],
+        'popupMode' => false,
+    ]) ?></div>
 </div>

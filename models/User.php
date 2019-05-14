@@ -41,7 +41,7 @@ class User extends ActiveRecord implements IdentityInterface
         
         $role = $auth->getRole($name);
         if (!$role) {
-            $this->addEror('*', Yii::t('app', 'Cannot load the role.'));
+            $this->addError('*', Yii::t('app', 'Cannot load the role.'));
             return false;
         }
         

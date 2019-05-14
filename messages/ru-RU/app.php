@@ -29,4 +29,10 @@ return [
     'Cannot load a role.' => 'Не удается загрузить роль.',
     'You cannot access this page.' => 'У вас нет доступа к этой странице.',
     'Restricted page' => 'Страница с ограниченным доступом',
+    'User with the same email as in {client} account already exists but isn\'t linked to it. Linking to multiple social accounts is not supported in this demo.' => 'Пользователь с адресом электронной почты, зарегистрированным в учетной записи {client}, уже существует. Данное демонстрационное приложение не поддерживает возможность привязывать несколько учетных записей социальных сетей к одному адресу электронной почты.',
+    'Unable to save {client} account: {errors}' => 'Не удается сохранить учетную запись {client}: {errors}',
+    'Linked {client} account.' => 'Учетная запись {client} подключена.',
+    'Unable to link {client} account: {errors}' => 'Не удается подключить учетную запись {client}: {errors}',
+    'Unable to link {client} account. There is another user using it.' => 'Не удается подключить учетную запись {client}. Данная учетная запись используется другим пользователем.',
+    'Social Login' => 'Вход через социальные сети',
 ];
