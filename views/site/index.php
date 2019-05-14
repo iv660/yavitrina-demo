@@ -17,10 +17,9 @@ $this->title = 'My Yii Application';
     <div class="body-content">
         <h2>Установка</h2>
         <ol>
-            <li>Скачайте установочный пакет и загрузите его на сервер.</li>
+            <li>Выполните <code>php composer.phar create-project --prefer-dist --stability=dev iv660/yavitrina-demo</code>.</li>
             <li>Создайте копию файла <code>config/secure-default.ini</code> с именем <code>secure.ini</code> и задайте требуемые настройки.</li>
-            <li>Выполните <code>yii migrate</code> для формирования схемы данных.</li>
-            <li>Выполните <code>composer.phar update</code> для установки зависимостей.</li>
+            <li>Выполните <code>php yii migrate</code> для формирования схемы данных.</li>
         </ol>
         
         <h2>Использованные возможности Yii</h2>
